@@ -1,0 +1,30 @@
+.fa {
+  font-family: FontAwesome, fontawesome-webfont;
+}
+
+Page {
+  background: #f2f1f7;
+}
+
+ActivityIndicator {
+  height: 10%;
+  color: #2c2d33;
+}
+
+.actionBar {
+    border-width: 1;
+    border-color: rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+.main_label {
+  display: block;
+  text-align: center;
+  font-size: 24pt;
+  font-weight: bold;
+  margin: 10pt;
+  /* background: #fff; */
+  color: #2c2d33;
+  text-transform: uppercase;
+  padding: 10pt;
+}

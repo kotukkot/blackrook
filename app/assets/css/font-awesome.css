@@ -1,0 +1,44 @@
+.fa-house:before {
+  content: "\f015";
+}
+
+.fa-message:before {
+  content: "\f27a";
+}
+
+.fa-circle-plus:before {
+  content: "\f055";
+}
+
+.fa-cart-shopping:before {
+  content: "\f07a";
+}
+
+.fa-circle-info:before {
+  content: "\f05a";
+}
+
+.fa-vk:before {
+  content: "\f189";
+}
+
+.fa-instagram:before {
+  content: "\f16d";
+}
+
+.fa-whatsapp:before {
+  content: "\f232";
+}
+
+.fa-telegram:before {
+  content: "\f1d8";
+}
+
+.fa-viber:before {
+  content: "\f409";
+}
+
+.fa-ok:before {
+  content: "\f263";
+}
+
