@@ -2,8 +2,8 @@
     <Page android:actionBarHidden="true">
             <!-- <ActionBar :title="item.name" class="actionBar" flat="true"/> -->
             <ScrollView>
-                <FlexboxLayout flexDirection="column" className="shop_page_description_box">
-                    <Image v-if="item.image" :src="item.image" className="shop_item_image" stretch="aspectFill" ios:height="300" />
+                <StackLayout className="shop_page_description_box">
+                    <Image v-if="item.image" :src="item.image" className="shop_item_image" stretch="aspectFill" />
                     <FlexboxLayout flexDirection="column" className="shop_page_description_box">
                         <Label :text="item.name" :textWrap="true" className="shop_item_title" />
                         <FlexboxLayout className="shop_page_cost_box" justifyContent="space-between">
@@ -12,7 +12,7 @@
                         </FlexboxLayout>
                         <Label :text="item.description" :textWrap="true" className="shop_item_description" />
                     </FlexboxLayout>
-                </FlexboxLayout>
+                </StackLayout>
             </ScrollView>
     </Page>
 </template>

@@ -4,6 +4,7 @@
       :src="item.image ? item.image : `~/assets/images/no-product-image.png`"
       className="shop_item_image"      
       col="0"
+      stretch="aspectFill"
       loadMode="async"
     />
     <StackLayout col="1">
@@ -42,8 +43,9 @@ export default {
 <style scoped>
 .shop_item {
   background: #fff;
-  border-radius: 0pt;
+  border-radius: 4pt;
   padding: 0;
+  overflow: hidden;
 }
 
 .shop_item_desc_box {

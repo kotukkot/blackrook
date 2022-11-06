@@ -40,7 +40,7 @@
           @loadMoreDataRequested="nextPage"
         >
           <v-template>
-            <ShopItem :item="item" margin="10 0 0 0" />
+            <ShopItem :item="item" margin="0 0 10 0" />
           </v-template>
         </RadListView>
       </StackLayout>
@@ -167,6 +167,7 @@ export default {
 
 .sideContentLayout {
   background-color: #f2f1f7;
+  padding: 10pt;
 }
 
 .sideContentLayout .noProduct_alert_box {
