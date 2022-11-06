@@ -4,19 +4,32 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@nativescript-community/ui-drawer": "^0.1.1",
+    "@nativescript-community/ui-mapbox": "^6.2.19",
     "@nativescript-community/ui-material-bottom-navigation": "^7.0.24",
+    "@nativescript-community/ui-material-tabs": "^7.0.28",
     "@nativescript-community/ui-webview": "^1.3.5",
     "@nativescript/core": "~8.2.0",
     "@nativescript/theme": "~3.0.2",
     "axios": "^0.27.2",
     "moment": "^2.29.4",
+    "nativescript-phone": "^3.0.3",
+    "nativescript-ui-listview": "^14.2.4",
+    "nativescript-ui-sidedrawer": "^14.2.1",
     "nativescript-vue": "~2.9.0",
     "nativescript-vue-fonticon": "^1.0.3",
-    "nativescript-vue-navigator": "^1.2.0"
+    "nativescript-vue-navigator": "^1.2.0",
+    "tns-core-modules": "^6.5.27",
+    "vue-class-component": "^7.2.6",
+    "vuex": "^3.6.0"
   },
   "devDependencies": {
-    "@nativescript/android": "8.2.4",
+    "@nativescript/android": "8.3.1",
+    "@nativescript/preview-cli": "1.0.2",
     "@nativescript/webpack": "~5.0.6",
     "nativescript-vue-template-compiler": "~2.9.0"
+  },
+  "scripts": {
+    "and": "ns run android --no-hmr"
   }
 }

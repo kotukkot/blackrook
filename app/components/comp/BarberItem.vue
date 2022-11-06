@@ -21,6 +21,7 @@ export default {
     methods: {
         openDetail(item) {
             this.$navigator.modal('/barbers/item', {
+                id: 'barbersModal',
                 props: { item },
                 fullscreen: true
             });

@@ -1,102 +1,149 @@
 <template>
-    <Page>
-        <ActionBar title="Магазин" class="actionBar" flat="true"></ActionBar>
-        <ScrollView>
-            <GridLayout columns="*,*" :rows="rows" className="shop_container">
-                <ShopItem v-for="(item,index) in list" :key="item.id" :item="item" :row="index / 2" :col="index % 2" />
-            </GridLayout>
-        </ScrollView>
-    </Page>
+  <Page>
+    <ActionBar title="Магазин" class="actionBar" flat="true">
+      <ActionItem @tap="onToggleDrawerTap()" ios.position="right">
+        <Label text="Категории" className="action_item_name" />
+      </ActionItem>
+    </ActionBar>
+    <RadSideDrawer ref="drawer" :drawerLocation="currentLocation">
+      <StackLayout ~drawerContent class="sideStackLayout">
+        <StackLayout class="sideStackLayout">
+          <Label
+            v-for="cat in categoryList"
+            :key="cat.id"
+            :text="cat.name"
+            class="sideLabel"
+            @tap="goTo(cat.id)"
+          ></Label>
+        </StackLayout>
+      </StackLayout>
+      <StackLayout ~mainContent class="sideContentLayout">
+        <ActivityIndicator v-if="preloader" :busy="preloader" />
+        <FlexboxLayout
+          flexDirection="column"
+          justifyContent="space-around"
+          v-else-if="!preloader && !list.length"
+          class="noProduct_alert_box"
+        >
+          <Label
+            textWrap="true"
+            text="Извините, в данной категории пока нет товаров"
+          />
+        </FlexboxLayout>
+        <ShopList v-else :list="list" />
+        <!-- <StackLayout>
+          <Button
+            text="Показать ещё"
+            @tap="api(next_page_url)"
+          />
+        </StackLayout> -->
+      </StackLayout>
+    </RadSideDrawer>
+  </Page>
 </template>
 <script>
-import ShopItem from './comp/ShopItem';
-export default {
-    components: {
-        ShopItem,
-    },
-    data() {
-        return {
-            title: '',
-            list: [{
-                id: 1,
-                name: 'ФУТБОЛКА V-DAY (УНИСЕКС)',
-                price: 4999,
-                description: 'Любовь витает в воздухе. Надень эту футболку adidas с вышитым стихотворением и всегда помни о том, что ты заслуживаешь безусловной любви. Мы празднуем любовь к себе и самоуважение, вдохновляя тебя заботиться о себе и дарить заботу близким. Покупая нашу хлопковую одежду, ты поддерживаешь более экологичное выращивание и обработку хлопка.',
-                image: '~/assets/images/shop/66164df822f440a3894bae8a0101cabf_9366.jpg'
-            }, {
-                id: 2,
-                name: 'ФУТБОЛКА ENTRADA 22 GRAPHIC',
-                price: 2399,
-                description: 'Для команды. Для планеты. Эта джерси adidas из коллекции Entrada 22 представляет новый взгляд на классический футбольный стиль. Дизайн с диагональными полосками позволит тебе выделяться на поле и за его пределами. Впитывающая влагу ткань с технологией AEROREADY подчеркивает твой спортивный стиль.',
-                image: '~/assets/images/shop/3a2467936b59477bb819add701593b3c_9366.jpg'
-            }, {
-                id: 3,
-                name: 'ФЛИСОВЫЕ БРЮКИ ESSENTIALS CUFF LOGO',
-                price: 4999,
-                description: 'Уютные брюки в спортивном стиле. Манжеты и крупный логотип adidas создают модные акценты. В боковые карманы можно положить необходимые мелочи.',
-                image: '~/assets/images/shop/959c248192974803aa77ad9f0092025e_9366.jpg'
-            }, {
-                id: 4,
-                name: 'БРЮКИ ESSENTIALS',
-                price: 4999,
-                description: 'Уютные брюки в спортивном стиле. Манжеты и крупный логотип adidas создают модные акценты. В боковые карманы можно положить необходимые мелочи.',
-                image: '~/assets/images/shop/6a3c84c49a12408582c9ac8200d69bed_9366.jpg'
-            }, {
-                id: 5,
-                name: 'ФЛИСОВЫЕ БРЮКИ ESSENTIALS CUFF LOGO',
-                price: 4999,
-                description: 'Уютные брюки в спортивном стиле. Манжеты и крупный логотип adidas создают модные акценты. В боковые карманы можно положить необходимые мелочи.',
-                image: '~/assets/images/shop/959c248192974803aa77ad9f0092025e_9366.jpg'
-            }, {
-                id: 6,
-                name: 'ЛОНГСЛИВ SILAS MESSAGE (УНИСЕКС)',
-                price: 5699,
-                description: 'Увлеченность команды adidas Skateboarding воплотилась в послании на этой футболке с надписью "Eco over Ego ("Эко важнее Эго"). Слоган создал прорайдер Сайлас Бакстер-Нил, преобразив классическую модель из 100% хлопка.',
-                image: '~/assets/images/shop/8bc841b24a024caab972ae0401092695_9366.jpg'
-            }, {
-                id: 7,
-                name: 'БЕЙСБОЛКА DAD',
-                price: 2399,
-                description: 'Список дел на сегодня выполнен. Спортзал был. Личные дела улажены. Теперь ты можешь расслабиться и отдохнуть в этой кепке adidas. А если решишь выйти на пробежку по парку, впитывающая лента с технологией AEROREADY защитит твое лицо от пота.',
-                image: '~/assets/images/shop/03015636e4d54ac29738adc600d5a378_9366.jpg'
-            }, {
-                id: 8,
-                name: 'БРЮКИ ADICOLOR CLASSICS BECKENBAUER PRIMEBLUE',
-                price: 8399,
-                description: 'Для многих поколений три полоски были и остаются символом спорта. И совсем не обязательно быть профессиональным атлетом, чтобы с гордостью носить экипировку с ними. Например, эти брюки adidas просто созданы для комфортных дней в городе. Или дома — выбор за тобой. Они выполнены из переработанных материалов, так что заботятся не только о тебе, но и о будущем нашей планеты.',
-                image: '~/assets/images/shop/93a55fe7008d405c851bad9a00999fed_9366.jpg'
-            }, {
-                id: 9,
-                name: 'ДЖЕМПЕР ADIDAS SPORTSWEAR FUTURE ICONS 3-STRIPES',
-                price: 7399,
-                description: 'Достижение фитнес-цели невозможно без правильно спланированного отдыха. А во время отдыха лучше носить что-то уютное. Например, этот джемпер adidas свободного кроя в классическом спортивном стиле. Гладкий материал обеспечивает комфорт в любой ситуации.',
-                image: '~/assets/images/shop/2b5555709ac24f209ec1ad5200fc0041_9366.jpg'
-            }]
-        };
-    },
-    methods: {
-        onFlickTap(args) {
-            const id = args.item.id
-            this.$navigateTo(ShopItemPage, {
-                props: { id }
-            })
-        }
-    },
-    computed: {
-        rows: function () {
-            const rows = [];
-            for (let i = 0; i < this.list.length / 2; i++) {
-                rows.push("*");
-            }
-            return rows.join(",");
-        }
-    }
-};
+import ShopList from "./ShopList";
 
+import { SideDrawerLocation } from "nativescript-ui-sidedrawer";
+export default {
+  components: {
+    ShopList,
+  },
+  props: {
+    cat_id: {
+      type: Number,
+      required: false,
+    },
+  },
+  data() {
+    return {
+      preloader: false,
+      selectedIndex: 0,
+      next_page_url: null,
+      list: [],
+      currentLocation: SideDrawerLocation.Left,
+    };
+  },
+  methods: {
+    async api(link = null) {
+      this.preloader = true;
+      let url = link ? link : this.urlApi;
+      this.$axios
+        .get(url)
+        .then((response) => {
+          this.list = link
+            ? this.list.concat(response.data.data.goods.data)
+            : response.data.data.goods.data;
+          this.next_page_url = response.data.data.goods.next_page_url;
+          console.log(this.next_page_url);
+        })
+        .catch((err) => console.log(err))
+        .finally(() => {
+          this.preloader = false;
+        });
+    },
+    onOpenDrawerTap() {
+      this.$refs.drawer.showDrawer("bottom");
+    },
+    onCloseDrawerTap() {
+      this.$refs.drawer.closeDrawer();
+    },
+    onToggleDrawerTap() {
+      this.$refs.drawer.toggleDrawerState();
+    },
+    goTo(id) {
+      this.$navigator.navigate("/shop", {
+        props: {
+          cat_id: id,
+        },
+      });
+    },
+  },
+  mounted() {
+    this.api();
+  },
+  computed: {
+    categoryList() {
+      return this.$store.state.category;
+    },
+    urlApi() {
+      if (this.cat_id) {
+        return `https://black-rook.ru/api/v1/category/${this.cat_id}`;
+      }
+
+      return `https://black-rook.ru/api/v1/products`;
+    },
+  },
+};
 </script>
 <style scoped>
-.shop_container {
-    padding: 0 15px;
+.sideStackLayout {
+  /* background-color: white; */
 }
 
+.sideStackLayout Button {
+  color: white;
+}
+
+.sideLabel {
+  padding: 15;
+  border-bottom-width: 1px;
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.sideContentLayout {
+  background-color: #f2f1f7;
+}
+
+.sideContentLayout .noProduct_alert_box {
+  padding: 15pt;
+  text-align: center;
+}
+
+.sideContentLayout .noProduct_alert_box Label {
+  background-color: #fff;
+  border-radius: 12pt;
+  padding: 15pt;
+  text-align: center;
+}
 </style>

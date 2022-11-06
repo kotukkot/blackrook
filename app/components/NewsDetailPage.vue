@@ -1,5 +1,8 @@
 <template>
-  <Page actionBarHidden="true">
+  <Page>
+    <ActionBar :flat="$isIOS ? false : true" class="actionBar">
+      <NavigationButton v-if="$isIOS" text="Назад" @tap="goBack" />
+    </ActionBar>
     <ScrollView>
       <ActivityIndicator v-if="preloader" :busy="preloader" />
       <StackLayout v-else>
@@ -19,8 +22,8 @@
             />
             <HtmlView
               v-if="item.description"
+              @loaded="$fixHtml"
               :html="item.description"
-              className="news_item_description"
             />
           </StackLayout>
         </StackLayout>
@@ -42,6 +45,7 @@ export default {
     return {
       preloader: true,
       item: {},
+      isMounted: false,
     };
   },
   methods: {
@@ -59,6 +63,9 @@ export default {
           this.preloader = false;
         });
     },
+    goBack() {
+      this.$navigator.back();
+    },
   },
   created() {
     this.api();
@@ -66,7 +73,9 @@ export default {
 };
 </script>
 <style scoped>
-Label {
+
+
+HtmlView {
   color: #2c2d33;
 }
 
@@ -89,6 +98,7 @@ Label {
 }
 
 .news_item_description {
-  color: #2c2d33;
+  /* color: #2c2d33; */
+  font-size: 16px;
 }
 </style>

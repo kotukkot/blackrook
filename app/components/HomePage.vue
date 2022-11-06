@@ -20,16 +20,20 @@
             margin="5"
           />
         </GridLayout>
+        <Label text="Галерея" :textWrap="true" className="main_label" />
       </FlexboxLayout>
+
     </ScrollView>
   </Page>
 </template>
 <script>
 import BarberItem from "./comp/BarberItem";
+import GaleryItem from "./comp/GaleryItem";
 export default {
   name: "HomePage",
   components: {
     BarberItem,
+    GaleryItem
   },
   data() {
     return {
@@ -38,7 +42,7 @@ export default {
     };
   },
   methods: {
-    api() {
+    async api() {
       let url = "https://black-rook.ru/api/v1/home";
       this.$axios
         .get(url)

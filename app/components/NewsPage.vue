@@ -1,19 +1,25 @@
 <template>
   <Page>
-    <ActionBar title="Новости" class="actionBar" flat="true"></ActionBar>
-
+    <ActionBar
+      title="Новости"
+      class="actionBar"
+      :flat="$isIOS ? false : true"
+    ></ActionBar>
+    
     <ActivityIndicator v-if="preloader" :busy="preloader" />
-    <ListView
+    <RadListView 
       for="item in list"
       separatorColor="transparent"
       @itemTap="openDetail"
       @loadMoreItems="nextPage"
+      
+      
       v-else
     >
       <v-template>
-        <NewsItem :item="item" />
+        <NewsItem :item="item" margin="0 0 5 0" />
       </v-template>
-    </ListView>
+    </RadListView>
   </Page>
 </template>
 <script>
@@ -28,7 +34,7 @@ export default {
       preloader: true,
       page: 1,
       list: [],
-      lastPage: 1
+      lastPage: 1,
     };
   },
   methods: {
@@ -50,17 +56,18 @@ export default {
         });
     },
     nextPage() {
-        if(this.page < this.lastPage) {
-            this.api();
-        } else {
-            return;
-        }
+      if (this.page < this.lastPage) {
+        this.api();
+      } else {
+        return;
+      }
     },
     openDetail(event) {
       let id = event.item.id;
-      this.$navigator.modal("/news/item", {
+      this.$navigator.navigate("/news/item", {
+        id: "newsModal",
         props: { id },
-        fullscreen: true,
+        fullscreen: this.$isIOS ? false : true,
       });
     },
   },
@@ -70,6 +77,10 @@ export default {
 };
 </script>
 <style scoped>
+Label {
+  color: #2c2d33;
+
+}
 FlexboxLayout {
   flex-grow: 3;
 }

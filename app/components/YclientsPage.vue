@@ -1,8 +1,8 @@
 <template>
     <Page actionBarHidden="true">
-        <FlexboxLayout>
-            <AWebView src="https://n550762.yclients.com/" @loaded="onWebViewLoaded" />
-        </FlexboxLayout>
+        <!-- <FlexboxLayout> -->
+            <AWebView src="https://n550762.yclients.com/" @loaded="onWebViewLoaded" :iosOverflowSafeArea="true" />
+        <!-- </FlexboxLayout> -->
     </Page>
 </template>
 <script>
@@ -16,6 +16,12 @@ export default {
                 webView.android.getSettings().setDatabaseEnabled(true);
                 webView.android.getSettings().setJavaScriptEnabled(true);
                 webView.android.getSettings().setAppCacheEnabled(true);
+            }
+
+            if (args.object && args.object.ios) {
+                setTimeout(() => {
+                args.object.requestLayout();
+                }, 0);
             }
         }
     },

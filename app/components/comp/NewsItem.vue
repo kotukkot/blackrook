@@ -1,6 +1,6 @@
 <template>
-  <StackLayout>
-    <Image v-if="item.image" :src="item.image" stretch="aspectFill" />
+  <StackLayout v-if="item">
+    <Image v-if="item.image" :src="item.image" stretch="aspectFill"  :height="$isIOS ? 200 : 'auto'" />
     <FlexboxLayout className="news_item_title_box" flexDirection="column">
       <Label :text="item.title" :textWrap="true" className="news_item_title" />
       <Label

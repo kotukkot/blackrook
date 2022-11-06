@@ -5,6 +5,9 @@
 Page {
   background: #f2f1f7;
 }
+.ns-light Page {
+  background-color: #f2f1f7;
+}
 
 ActivityIndicator {
   height: 10%;
@@ -12,9 +15,8 @@ ActivityIndicator {
 }
 
 .actionBar {
-    border-width: 1;
-    border-color: rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
+    /* border-width: 1;
+    border-color: rgba(0, 0, 0, 0.1); */
 }
 
 .main_label {
