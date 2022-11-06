@@ -1,4 +1,4 @@
-import { isIOS } from 'tns-core-modules/platform';
+import { isIOS } from '@nativescript/core';
 
 export default function appFixHtmlView(el) {    
   if (isIOS) {

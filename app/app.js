@@ -6,7 +6,7 @@ import Theme from "@nativescript/theme";
 
   Theme.setMode(Theme.Light);
 
-import { isAndroid, isIOS } from 'tns-core-modules/platform';
+import { isAndroid, isIOS } from '@nativescript/core';
 Vue.prototype.$isAndroid = isAndroid;
 Vue.prototype.$isIOS = isIOS;
 
