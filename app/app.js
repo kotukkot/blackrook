@@ -27,6 +27,9 @@ Vue.use(RadSideDrawer);
 import RadListView from 'nativescript-ui-listview/vue';
 Vue.use(RadListView);
 
+import CollectionView from '@nativescript-community/ui-collectionview/vue';
+Vue.use(CollectionView);
+
 import axios from 'axios/dist/axios';
 Vue.prototype.$axios = axios;
 

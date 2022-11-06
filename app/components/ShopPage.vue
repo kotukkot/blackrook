@@ -20,9 +20,9 @@
       <StackLayout ~mainContent class="sideContentLayout">
         <ActivityIndicator v-if="preloader" :busy="preloader" />
         <FlexboxLayout
+          v-if="!preloader && list.length === 0"
           flexDirection="column"
           justifyContent="space-around"
-          v-else-if="!preloader && !list.length"
           class="noProduct_alert_box"
         >
           <Label
@@ -30,24 +30,30 @@
             text="Извините, в данной категории пока нет товаров"
           />
         </FlexboxLayout>
-        <ShopList v-else :list="list" />
-        <!-- <StackLayout>
-          <Button
-            text="Показать ещё"
-            @tap="api(next_page_url)"
-          />
-        </StackLayout> -->
+        <RadListView
+          v-else
+          id="ls"
+          ref="listView"
+          :items="list"
+          itemHeight="120"
+          loadOnDemandMode="Auto"
+          @loadMoreDataRequested="nextPage"
+        >
+          <v-template>
+            <ShopItem :item="item" margin="10 0 0 0" />
+          </v-template>
+        </RadListView>
       </StackLayout>
     </RadSideDrawer>
   </Page>
 </template>
 <script>
-import ShopList from "./ShopList";
+import ShopItem from "./comp/ShopItem";
 
 import { SideDrawerLocation } from "nativescript-ui-sidedrawer";
 export default {
   components: {
-    ShopList,
+    ShopItem,
   },
   props: {
     cat_id: {
@@ -65,22 +71,34 @@ export default {
     };
   },
   methods: {
-    async api(link = null) {
+    api(link = null) {
       this.preloader = true;
       let url = link ? link : this.urlApi;
       this.$axios
         .get(url)
         .then((response) => {
+          // console.log(response.data.data.goods)
           this.list = link
             ? this.list.concat(response.data.data.goods.data)
             : response.data.data.goods.data;
           this.next_page_url = response.data.data.goods.next_page_url;
-          console.log(this.next_page_url);
         })
         .catch((err) => console.log(err))
         .finally(() => {
           this.preloader = false;
         });
+    },
+    async nextPage() {
+      if (this.next_page_url) {
+        await this.$axios
+          .get(this.nextPageUrl)
+          .then((response) => {
+            this.list = this.list.concat(response.data.data.goods.data);
+            this.next_page_url = response.data.data.goods.next_page_url;
+            this.$refs.listView.nativeView.notifyLoadOnDemandFinished();
+          })
+          .catch((err) => console.log(err));
+      }
     },
     onOpenDrawerTap() {
       this.$refs.drawer.showDrawer("bottom");
@@ -103,6 +121,14 @@ export default {
     this.api();
   },
   computed: {
+    nextPageUrl: {
+      get() {
+        return this.next_page_url;
+      },
+      set(link) {
+        this.next_page_url = link;
+      },
+    },
     categoryList() {
       return this.$store.state.category;
     },
@@ -112,6 +138,14 @@ export default {
       }
 
       return `https://black-rook.ru/api/v1/products`;
+    },
+    rows: function () {
+      const rows = [];
+      for (let i = 0; i < this.list.length / 2; i++) {
+        rows.push("auto");
+      }
+      console.log(this.list.length);
+      return rows.join(",");
     },
   },
 };

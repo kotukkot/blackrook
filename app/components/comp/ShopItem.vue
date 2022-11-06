@@ -1,40 +1,22 @@
 <template>
-  <DockLayout stretchLastChild="true" className="shop_item">
+  <GridLayout columns="120, *" rows="*" class="shop_item" @tap="openDetail(item)">
     <Image
-      v-if="item.image"
-      :src="item.image"
-      className="shop_item_image"
-      @tap="openDetail(item)"
-      dock="top"
+      :src="item.image ? item.image : `~/assets/images/no-product-image.png`"
+      className="shop_item_image"      
+      col="0"
+      loadMode="async"
     />
-    <Image
-      v-else
-      src="~/assets/images/no-product-image.png"
-      className="shop_item_image"
-      @tap="openDetail(item)"
-      dock="top"
-    />
-    <DockLayout stretchLastChild="true" className="shop_item_desc_box" dock="bottom">
-      <Label
-        :text="item.name"
-        :textWrap="true"
-        className="shop_item_title"
-        dock="top"
-      />
+    <StackLayout col="1">
 
-      <Label
-        :text="format_string(item.cost)"
-        className="shop_item_price"
-        verticalAlignment="bottom"
-        dock="bottom"
-      />
-    </DockLayout>
-  </DockLayout>
+      <Label :text="item.name" :textWrap="true" className="shop_item_title" />
+      <Label :text="format_string(item.cost)" className="shop_item_price" />
+
+    </StackLayout>
+  </GridLayout>
 </template>
 <script>
 export default {
-  components: {
-  },
+  components: {},
   props: {
     item: {
       type: Object,
@@ -52,20 +34,20 @@ export default {
       });
     },
     format_string(val) {
-        return `${val}`.replace(/(\d)(?=(\d{3})+([^\d]|$))/g, "$1 ") + ' ₽';
-    }
+      return `${val}`.replace(/(\d)(?=(\d{3})+([^\d]|$))/g, "$1 ") + " ₽";
+    },
   },
 };
 </script>
 <style scoped>
 .shop_item {
   background: #fff;
-  border-radius: 4pt;
-  overflow: hidden;
+  border-radius: 0pt;
+  padding: 0;
 }
 
 .shop_item_desc_box {
-  padding: 10pt 5pt;
+  /* padding: 10pt 5pt; */
 }
 .shop_item_title {
   font-weight: bold;
@@ -75,7 +57,7 @@ export default {
 }
 
 .shop_item_image {
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
   height: auto;
   width: 100%;
   border-radius: 4pt 4pt 0 0;

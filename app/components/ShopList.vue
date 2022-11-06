@@ -1,5 +1,4 @@
 <template>
-  <StackLayout>
     <!-- <RadListView
       v-if="$isIOS"
       ref="listView"
@@ -11,8 +10,8 @@
         <ShopItem :item="item" margin="5" />
       </v-template>
     </RadListView> -->
-    <ScrollView >
-      <GridLayout columns="*,*" :rows="rows" className="shop_container">
+    <!-- <ScrollView > -->
+      <GridLayout v-if="list" columns="*,*" :rows="rowsLength" className="shop_container">
         <ShopItem
           v-for="(item, index) in list"
           :key="item.id"
@@ -22,8 +21,7 @@
           margin="5"
         />
       </GridLayout>
-    </ScrollView>
-  </StackLayout>
+    <!-- </ScrollView> -->
 </template>
 <script>
 import ShopItem from "./comp/ShopItem";
@@ -48,7 +46,7 @@ export default {
     },
   },
   computed: {
-    rows: function () {
+    rowsLength: function () {
       const rows = [];
       for (let i = 0; i < this.list.length / 2; i++) {
         rows.push("*");

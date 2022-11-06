@@ -1,7 +1,7 @@
 <template>
   <GridLayout class="App" rows="*, auto" iosOverflowSafeArea="false">
     <ContentView row="0">
-      <Navigator :defaultRoute="'/yclients'" />
+      <Navigator :defaultRoute="'/shop'" />
       <!-- <Navigator id="secondNavigator"/> -->
       <!-- <Navigator :defaultRoute="'/yclients'"/> -->
       <!-- <Frame>

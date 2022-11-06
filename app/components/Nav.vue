@@ -1,6 +1,14 @@
 <template>
-  <GridLayout rows="auto" columns="*, *, *, *, *" class="footer">
-    <FlexboxLayout
+  <GridLayout rows="*" columns="*, *, *, *, *" class="footer">
+    <StackLayout
+      v-for="(item, index) in routes"
+      :key="index"
+      class="nav_button"
+      row="0"
+      :col="index"
+      @tap="goTo(index)"
+    >
+      <!-- <FlexboxLayout
       v-for="(item, index) in routes"
       :key="index"
       class="nav_button"
@@ -8,21 +16,21 @@
       justifyContent="center"
       alignItems="center"
       alignContent="center"
-      row="1"
+      row="0"
       :col="index"
       @tap="goTo(index)"
-    >
+    > -->
       <Label
+        horizontalAlignment="center"
         class="fa"
         :text="item.icon | fonticon"
-        :class="$navigator.path === item.path ? 'active' : ''"
-      />
+        :class="$navigator.path === item.path ? 'active' : ''" />
       <Label
+        horizontalAlignment="center"
         class="nav_label"
         :text="item.label"
         :class="$navigator.path === item.path ? 'active' : ''"
-      />
-    </FlexboxLayout>
+    /></StackLayout>
   </GridLayout>
 </template>
 <script>
@@ -66,8 +74,8 @@ export default {
           options: {
             clearHistory: true,
             props: {
-                pageName: 'home'
-            }
+              pageName: "home",
+            },
           },
         },
         {
@@ -93,6 +101,8 @@ export default {
 .footer {
   /* border-top: 1px solid rgba(185,198,215, 1.0); */
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  border-top-width: 1px;
+  border-top-color: rgba(0, 0, 0, 0.1);
   background-color: #fff;
 }
 
@@ -106,8 +116,7 @@ Image {
 }
 
 .nav_button {
-  height: 60;
-  padding: 5px;
+  padding: 10px 5px;
 }
 
 .nav_label {

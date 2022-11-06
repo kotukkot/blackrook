@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@nativescript-community/ui-collectionview": "^4.0.63",
     "@nativescript-community/ui-drawer": "^0.1.1",
     "@nativescript-community/ui-mapbox": "^6.2.19",
     "@nativescript-community/ui-material-bottom-navigation": "^7.0.24",
@@ -25,11 +26,12 @@
   "devDependencies": {
     "@nativescript/android": "8.3.1",
     "@nativescript/preview-cli": "1.0.2",
-    "@nativescript/webpack": "~5.0.0",
     "@nativescript/stackblitz": "0.0.5",
+    "@nativescript/webpack": "~5.0.0",
     "nativescript-vue-template-compiler": "~2.9.0"
   },
   "scripts": {
-    "and": "ns run android --no-hmr"
+    "and": "ns run android --no-hmr",
+    "io": "ns preview --no-hmr"
   }
 }
