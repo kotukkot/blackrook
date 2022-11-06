@@ -26,6 +26,7 @@
     "@nativescript/android": "8.3.1",
     "@nativescript/preview-cli": "1.0.2",
     "@nativescript/webpack": "~5.0.0",
+    "@nativescript/stackblitz": "0.0.5",
     "nativescript-vue-template-compiler": "~2.9.0"
   },
   "scripts": {
