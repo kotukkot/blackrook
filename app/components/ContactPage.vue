@@ -1,17 +1,24 @@
 <template>
   <Page>
-    <ActionBar title="Контакты" class="actionBar" flat="true"></ActionBar>
-    <ScrollView>
-      <ActivityIndicator v-if="preloader" :busy="preloader" />
-      <StackLayout v-else className="contact_container">
-        <ContactItem
-          v-for="item in list"
-          :key="item.id"
-          :item="item"
-          margin="5"
-        />
-      </StackLayout>
-    </ScrollView>
+    <ActionBar
+      title="Контакты"
+      class="actionBar"
+      :flat="$isIOS ? false : true"
+    ></ActionBar>
+    
+    <ActivityIndicator v-if="preloader" :busy="preloader" />
+    <RadListView 
+      for="item in list"
+      separatorColor="transparent"
+      @itemTap="openDetail"
+      
+      
+      v-else
+    >
+      <v-template>
+        <ContactItem :item="item" margin="5 10" />
+      </v-template>
+    </RadListView>
   </Page>
 </template>
 <script>
@@ -40,6 +47,14 @@ export default {
         .finally(() => {
           this.preloader = false;
         });
+    },
+    openDetail(event) {
+      let id = event.item.id;
+      this.$navigator.navigate("/contact/item", {
+        id: "contactItemPage",
+        props: { id },
+        fullscreen: this.$isIOS ? false : true,
+      });
     },
   },
   mounted() {

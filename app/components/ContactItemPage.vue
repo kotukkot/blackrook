@@ -1,53 +1,34 @@
 <template>
-  <Page actionBarHidden="true">
-    <ScrollView>
-      <StackLayout
-        stretchLastChild="true"
-        className="contact_page_item"
+  <Page>
+    <ActionBar class="actionBar" :flat="$isIOS ? false : true">
+      <ActionItem
+        ios.position="right"
+        android.position="right"
+        :text="item.city"
+      />
+    </ActionBar>
+    <StackLayout
+      orientation="horizontal"
+      width="100%"
+      verticalAlignment="stretch"
+    >
+      <Mapbox
+        accessToken="pk.eyJ1IjoiaHJhY2gxOTg3IiwiYSI6ImNsOXByNG1laTA5cWkzdXRmNWVtdWpibTAifQ.SdmR9gHm_8ku1oLo6DY7kg"
+        delay="2000"
+        className="contact_mapbox"
+        mapStyle="streets"
+        :latitude="item.latitude"
+        :longitude="item.longitude"
+        :hideCompass="true"
+        :zoomLevel="15"
+        :showUserLocation="false"
+        :disableZoom="false"
+        :disableRotation="false"
+        :disableScroll="false"
+        :disableTilt="false"
       >
-        <Label
-          :text="item.city"
-          :textWrap="true"
-          className="contact_item_city"
-        />
-
-        <FlexboxLayout
-          className="shop_page_cost_box"
-          justifyContent="space-between"
-          flexWrap="wrap"
-        >
-          <Label :text="item.address" className="contact_item_address" />
-          <Label
-            v-if="item.telephones && item.telephones.length"
-            :text="item.telephones[0].phone"
-            className="contact_item_phone"
-            @tap="call(item.telephones[0].phone)"
-          />
-        </FlexboxLayout>
-        <StackLayout
-          orientation="horizontal"
-          width="100%"
-          verticalAlignment="stretch"
-        >
-          <Mapbox
-            className="contact_mapbox"
-            accessToken="pk.eyJ1IjoiaHJhY2gxOTg3IiwiYSI6ImNsOXByNG1laTA5cWkzdXRmNWVtdWpibTAifQ.SdmR9gHm_8ku1oLo6DY7kg"
-            mapStyle="streets"
-            :latitude="item.latitude"
-            :longitude="item.longitude"
-            :hideCompass="true"
-            :zoomLevel="15"
-            :showUserLocation="false"
-            :disableZoom="false"
-            :disableRotation="false"
-            :disableScroll="false"
-            :disableTilt="false"
-            @mapReady="onMapReady($event, item.latitude, item.longitude)"
-          >
-          </Mapbox>
-        </StackLayout>
-      </StackLayout>
-    </ScrollView>
+      </Mapbox>
+    </StackLayout>
   </Page>
 </template>
 <script>
@@ -55,16 +36,32 @@ import { dial, requestCallPermission } from "nativescript-phone";
 export default {
   components: {},
   props: {
-    item: {
-      type: Object,
+    id: {
+      type: Number,
+      required: true,
     },
   },
   data() {
     return {
-      title: "",
+      item: {},
     };
   },
   methods: {
+    async api() {
+      let url = "https://black-rook.ru/api/v1/info/" + this.id;
+      this.$axios
+        .get(url)
+        .then((response) => {
+          this.item = response.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$navigator.navigate("/contact");
+        })
+        .finally(() => {
+          this.preloader = false;
+        });
+    },
     call(num) {
       const phoneNumber = num;
       requestCallPermission(
@@ -83,6 +80,9 @@ export default {
       ]);
     },
   },
+  created() {
+    this.api();
+  },
 };
 </script>
 <style scoped>
@@ -98,7 +98,6 @@ export default {
   font-size: 18px;
 }
 
-
 .contact_item_phone {
   color: #0000ff;
 }
@@ -109,6 +108,6 @@ export default {
 }
 
 .shop_page_cost_box {
-    margin-bottom: 20pt;
+  margin-bottom: 20pt;
 }
 </style>

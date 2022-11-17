@@ -1,9 +1,9 @@
 <template>
-    <DockLayout stretchLastChild="true" className="barber_item" @tap="openDetail(item)">
+    <StackLayout stretchLastChild="true" className="barber_item" @tap="openDetail(item)">
         <Image  v-if="item.image" :src="item.image" className="barber_item_image"  stretch="aspectFill" horizontalAlignment="center" dock="top" />
         <Image v-else src="~/assets/no-product-image.png" />
-        <Label :text="item.name" :textWrap="true" className="barber_item_title" verticalAlignment="bottom" dock="bottom" />
-    </DockLayout>
+        <Label :text="item.name" :textWrap="true" className="barber_item_title" verticalAlignment="bottom" />
+    </StackLayout>
 </template>
 <script>
 export default {
@@ -29,7 +29,6 @@ export default {
         
     },
     mounted() {
-        
     },
 };
 

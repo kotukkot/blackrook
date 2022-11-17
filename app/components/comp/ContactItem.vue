@@ -1,5 +1,5 @@
 <template>
-  <StackLayout stretchLastChild="true" className="shop_item"  @tap="openDetail(item)">
+  <StackLayout stretchLastChild="true" className="shop_item">
     <Label :text="item.city" :textWrap="true" className="contact_item_city" />
 
     <FlexboxLayout
@@ -32,14 +32,6 @@ export default {
     };
   },
   methods: {
-    openDetail(item) {
-      this.$navigator.modal("/contact/item", {
-        id: "contactModal",
-        props: { item },
-        fullscreen: true,
-        stretched: true
-      });
-    },
     call(num) {
       const phoneNumber = num;
       requestCallPermission(

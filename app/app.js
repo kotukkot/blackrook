@@ -1,5 +1,7 @@
 import Vue from 'nativescript-vue';
 
+Vue.config.silent = true;
+
 import '@nativescript/theme/css/core.css';
 import '@nativescript/theme/css/default.css';
 import Theme from "@nativescript/theme";
@@ -9,8 +11,6 @@ import Theme from "@nativescript/theme";
 import { isAndroid, isIOS } from '@nativescript/core';
 Vue.prototype.$isAndroid = isAndroid;
 Vue.prototype.$isIOS = isIOS;
-
-Vue.config.silent = true;
 
 
 import './globalFunctions';
@@ -50,7 +50,6 @@ Vue.use(WebViewPlugin);
 import moment from 'moment';
 Vue.prototype.$moment = moment;
 
-Vue.registerElement("Mapbox", () => require("@nativescript-community/ui-mapbox").MapboxView)
 
 import App from './components/App';
 
@@ -63,6 +62,7 @@ import storeCategory from './store/category';
 import htmlViewD from './directives/htmlViewD';
 Vue.directive('fixHtml', htmlViewD)
 
+Vue.registerElement("Mapbox", () => require("@nativescript-community/ui-mapbox").MapboxView);
 
 new Vue({
   // render: (h) => h('frame', [h(App)]),
